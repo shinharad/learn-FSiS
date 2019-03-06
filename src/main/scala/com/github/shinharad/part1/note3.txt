@@ -1,0 +1,20 @@
+scala> import com.github.shinharad.part1._
+<console>:11: warning: Unused import
+       import com.github.shinharad.part1._
+                                         ^
+import com.github.shinharad.part1._
+
+scala> implicitly[Functor[Int => ?]]
+res0: com.github.shinharad.part1.Functor[[β$0$]Int => β$0$] = com.github.shinharad.part1.Functor$$anon$4@34d77b6f
+
+scala> res0.map(_ + 1)(_ + 2)
+<console>:10: warning: Unused import
+       import com.github.shinharad.part1._
+                                         ^
+res1: Int => Int = scala.Function1$$Lambda$5515/1758247102@4ce988b6
+
+scala> res1(5)
+<console>:10: warning: Unused import
+       import com.github.shinharad.part1._
+                                         ^
+res2: Int = 8

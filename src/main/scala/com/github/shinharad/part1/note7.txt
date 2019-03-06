@@ -1,0 +1,28 @@
+scala> import com.github.shinharad.part1._
+<console>:11: warning: Unused import
+       import com.github.shinharad.part1._
+                                         ^
+import com.github.shinharad.part1._
+
+scala> Function1[X, ?]
+<console>:15: error: not found: value Function1
+       Function1[X, ?]
+       ^
+<console>:15: error: not found: type X
+       Function1[X, ?]
+                 ^
+<console>:15: error: not found: type ?
+       Function1[X, ?]
+                    ^
+<console>:10: warning: Unused import
+       import com.github.shinharad.part1._
+                                         ^
+
+scala> Functor[({type l[a] = Function1[Int, a]})#l]
+res1: com.github.shinharad.part1.Functor[[a]Int => a] = com.github.shinharad.part1.Functor$$anon$4@4e570bcd
+
+scala> Functor[Function1[Int, ?]]
+res2: com.github.shinharad.part1.Functor[[β$0$]Int => β$0$] = com.github.shinharad.part1.Functor$$anon$4@168e80ce
+
+scala> Functor[Lambda[X => Function1[Int, X]]]
+res3: com.github.shinharad.part1.Functor[[X]Int => X] = com.github.shinharad.part1.Functor$$anon$4@37e4ba58

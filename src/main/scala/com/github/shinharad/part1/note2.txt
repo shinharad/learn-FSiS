@@ -1,0 +1,18 @@
+scala> import com.github.shinharad.part1._
+<console>:11: warning: Unused import
+       import com.github.shinharad.part1._
+                                         ^
+import com.github.shinharad.part1._
+
+scala> implicitly[Functor[List]]
+res0: com.github.shinharad.part1.Functor[List] = com.github.shinharad.part1.Functor$$anon$2@622584cd
+
+scala> res0.map(List(1, 2, 3))(_ + 1)
+<console>:10: warning: Unused import
+       import com.github.shinharad.part1._
+                                         ^
+res1: List[Int] = List(2, 3, 4)
+
+scala> implicitly[Functor[Option]].map(Some(1))(_ + 1)
+res2: Option[Int] = Some(2)
+

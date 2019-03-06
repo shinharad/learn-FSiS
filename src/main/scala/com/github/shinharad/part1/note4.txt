@@ -1,0 +1,26 @@
+scala> import com.github.shinharad.part1._
+<console>:11: warning: Unused import
+       import com.github.shinharad.part1._
+                                         ^
+import com.github.shinharad.part1._
+
+scala> Functor[List]
+res0: com.github.shinharad.part1.Functor[List] = com.github.shinharad.part1.Functor$$anon$2@684c3bb2
+
+scala> Functor[Option]
+res1: com.github.shinharad.part1.Functor[Option] = com.github.shinharad.part1.Functor$$anon$3@746577d
+
+scala> import Functor.ops._
+<console>:14: warning: Unused import
+       import Functor.ops._
+                          ^
+import Functor.ops._
+
+scala> List(1, 2, 3).void
+res2: List[Unit] = List((), (), ())
+
+scala> List(1, 2, 3).as(10)
+res3: List[Int] = List(10, 10, 10)
+
+scala> List(1, 2, 3, 4, 5, 6).as(10)
+res4: List[Int] = List(10, 10, 10, 10, 10, 10)

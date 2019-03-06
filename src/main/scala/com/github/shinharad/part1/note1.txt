@@ -1,0 +1,68 @@
+scala> val x: Int = 1
+x: Int = 1
+
+scala> val xs: List[Int] = List(1, 2, 3)
+xs: List[Int] = List(1, 2, 3)
+
+scala> :k Int
+Int's kind is A
+
+scala> :k List
+List's kind is F[+A]
+
+scala> val ys: List = ???
+<console>:11: error: type List takes type parameters
+       val ys: List = ???
+               ^
+
+scala> def foo[A](x: A, y: A) = ???
+foo: [A](x: A, y: A)Nothing
+
+scala> def bar[F[_], A](x: F[A], y: F[A]) = ???
+<console>:11: warning: higher-kinded type should be enabled
+by making the implicit value scala.language.higherKinds visible.
+This can be achieved by adding the import clause 'import scala.language.higherKinds'
+or by setting the compiler option -language:higherKinds.
+See the Scaladoc for value scala.language.higherKinds for a discussion
+why the feature should be explicitly enabled.
+       def bar[F[_], A](x: F[A], y: F[A]) = ???
+               ^
+bar: [F[_], A](x: F[A], y: F[A])Nothing
+
+scala> def bar[F[_], A](x: F[A], y: F[A]) = null
+<console>:11: warning: higher-kinded type should be enabled
+by making the implicit value scala.language.higherKinds visible.
+This can be achieved by adding the import clause 'import scala.language.higherKinds'
+or by setting the compiler option -language:higherKinds.
+See the Scaladoc for value scala.language.higherKinds for a discussion
+why the feature should be explicitly enabled.
+       def bar[F[_], A](x: F[A], y: F[A]) = null
+               ^
+bar: [F[_], A](x: F[A], y: F[A])Null
+
+scala> bar(List(1, 2, 3), List(1))
+res0: Null = null
+
+scala> bar(Some(1), Some(2))
+res1: Null = null
+
+scala> bar(Some(1), List(1, 2, 3))
+<console>:13: error: inferred kinds of the type arguments (Product with Serializable,Int) do not conform to the expected kinds of the type parameters (type F,type A).
+Product with Serializable's type parameters do not match type F's expected parameters:
+<refinement of Product> has no type parameters, but type F has one
+       bar(Some(1), List(1, 2, 3))
+       ^
+<console>:13: error: type mismatch;
+ found   : Some[Int]
+ required: F[A]
+       bar(Some(1), List(1, 2, 3))
+               ^
+<console>:13: error: type mismatch;
+ found   : List[Int]
+ required: F[A]
+       bar(Some(1), List(1, 2, 3))
+                        ^
+
+scala> bar(1, 2)
+res3: Null = null
+

@@ -2,6 +2,7 @@ package com.github.shinharad.part1
 
 import simulacrum._
 import scala.language.higherKinds
+import scala.language.implicitConversions
 
 @typeclass trait Functor[F[_]] { self =>
 

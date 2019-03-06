@@ -1,5 +1,3 @@
-package com.github.shinharad.part1
-
 import simulacrum._
 import scala.language.higherKinds
 import scala.language.implicitConversions
@@ -17,22 +15,6 @@ import scala.language.implicitConversions
   def void[A](fa: F[A]): F[Unit] =
     as(fa, ())
 
-  /** compose
-   *
-   * {{{
-   * scala> Functor[List] compose Functor[Option]
-   * res0: com.github.shinharad.part1.Functor[[X]List[Option[X]]] = com.github.shinharad.part1.Functor$$anon$1@49d0f12c
-   *
-   * scala> val xs: List[Option[Int]] = List(Some(1), None, Some(2))
-   *
-   * scala> res0.map(xs)(_ + 1)
-   * res1: List[Option[Int]] = List(Some(2), None, Some(3))
-   * }}}
-   *
-   * @param G
-   * @tparam G
-   * @return
-   */
   def compose[G[_]](implicit G: Functor[G]): Functor[Lambda[X => F[G[X]]]] =
     new Functor[Lambda[X => F[G[X]]]] {
       def map[A, B](fga: F[G[A]])(f: A => B): F[G[B]] =

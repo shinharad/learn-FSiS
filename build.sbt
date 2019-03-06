@@ -13,8 +13,8 @@ lazy val root = (project in file("."))
 //      "-Ymacro-annotations",
       "-unchecked",
       "-deprecation",
-      "-feature",
-      "-Xlint"
+      "-feature"
+//      "-Xlint"
     ),
     addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.9"),
     // For Simulacrum

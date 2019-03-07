@@ -1,8 +1,9 @@
 import simulacrum._
 
 import scala.language.higherKinds
+import scala.language.implicitConversions
 
-@typeclass trait Applicative[F[_]] extends Functor[F] {
+@typeclass trait Applicative[F[_]] extends Functor[F] { self =>
 
   def pure[A](a: A): F[A]
 
@@ -20,14 +21,27 @@ import scala.language.higherKinds
   def map3[A, B, C, Z](fa: F[A], fb: F[B], fc: F[C])(f: (A, B, C) => Z): F[Z] =
     apply(fa)(map2(fb, fc)((b, c) => a => f(a, b, c)))
 
-  def map4[A, B, C, D, Z](fa: F[A], fb: F[B], fc: F[C], fd: F[C])(f: (A, B, C, D) => Z): F[Z] =
-    apply(fa)(map3(fb, fc, fd)((b, c, d) => a => f(a, b, c, d)))
+  def map4[A, B, C, D, Z](fa: F[A], fb: F[B], fc: F[C], fd: F[D])(f: (A, B, C, D) => Z): F[Z] =
+    map2(tuple2(fa, fb), tuple2(fc, fd)) { case ((a, b), (c, d)) => f(a, b, c, d) }
+//    apply(fa)(map3(fb, fc, fd)((b, c, d) => a => f(a, b, c, d)))
 
   def tuple2[A, B](fa: F[A], fb: F[B]): F[(A, B)] =
     map2(fa, fb)((a, b) => (a, b))
 
   def tuple3[A, B, C](fa: F[A], fb: F[B], fc: F[C]): F[(A, B, C)] =
     map3(fa, fb, fc)((a, b, c) => (a, b, c))
+
+  def flip[A, B](ff: F[A => B]): F[A] => F[B] =
+    fa => apply(fa)(ff)
+
+  def compose[G[_]](implicit G: Applicative[G]): Applicative[Lambda[X => F[G[X]]]] =
+    new Applicative[Lambda[X => F[G[X]]]] {
+      def pure[A](a: A): F[G[A]] = self.pure(G.pure(a))
+      def apply[A, B](fga: F[G[A]])(ff: F[G[A => B]]): F[G[B]] = {
+        val x: F[G[A] => G[B]] = self.map(ff)(gab => G.flip(gab))
+        self.apply(fga)(x)
+      }
+    }
 
 }
 

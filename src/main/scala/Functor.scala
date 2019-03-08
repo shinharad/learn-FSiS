@@ -34,7 +34,7 @@ object Functor {
   }
 
   // F[_}に対してFunctionは2つの型パラメータを取るのでそのままでは指定できない
-  // そこで、partially applyを使うが記述が冗長なので、Kind Projectorで簡潔な技術をするみたいな
+  // そこで、partially appliedを使うが記述が冗長なので、Kind Projectorで簡潔な技術をするみたいな
   // https://youtu.be/Dsd4pc99FSY?list=PLFrwDVdSrYE6dy14XCmUtRAJuhCxuzJp0&t=2300
   implicit def function1Functor[X]: Functor[X => ?] = new Functor[X => ?] {
     def map[A, B](fa: X => A)(f: A => B): X => B = fa andThen f

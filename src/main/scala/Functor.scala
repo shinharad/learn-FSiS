@@ -23,16 +23,6 @@ import scala.language.implicitConversions
 
 }
 
-trait FunctorLaws {
-
-  def identity[F[_], A](fa: F[A])(implicit F: Functor[F]) =
-    F.map(fa)(a => a) == fa
-
-  def composition[F[_], A, B, C](fa: F[A], f: A => B, g: B => C)(implicit F: Functor[F]) =
-    F.map(F.map(fa)(f))(g) == F.map(fa)(f andThen g)
-
-}
-
 object Functor {
 
   implicit val listFunctor: Functor[List] = new Functor[List] {
@@ -47,15 +37,19 @@ object Functor {
     def map[A, B](fa: X => A)(f: A => B): X => B = fa andThen f
   }
 
-  // kind-projector
-  //
-  // scala> Functor[({type l[a] = Function1[Int, a]})#l]
-  // res1: com.github.shinharad.part1.Functor[[a]Int => a] = com.github.shinharad.part1.Functor$$anon$4@2f7f0ca2
-  //
-  // scala> Functor[Function1[Int, ?]]
-  // res2: com.github.shinharad.part1.Functor[[β$0$]Int => β$0$] = com.github.shinharad.part1.Functor$$anon$4@11e92d25
-  //
-  // scala> Functor[Lambda[X => Function1[Int, X]]]
-  // res3: com.github.shinharad.part1.Functor[[X]Int => X] = com.github.shinharad.part1.Functor$$anon$4@6b96a73c
+}
+
+trait FunctorLaws[F[_]] {
+
+  import Functor.ops._
+  import Equal.IsEq._
+
+  implicit def F: Functor[F]
+
+  def identity[A](fa: F[A]) =
+    F.map(fa)(a => a) =?= fa
+
+  def composition[A, B, C](fa: F[A], f: A => B, g: B => C) =
+    F.map(F.map(fa)(f))(g) =?= F.map(fa)(f andThen g)
 
 }

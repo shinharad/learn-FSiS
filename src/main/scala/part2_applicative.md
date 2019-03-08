@@ -62,4 +62,12 @@ scala> Option(1).flatMap { x => Option(2).flatMap { y => Option(3).map { z => x 
 res3: Option[Int] = Some(6)
 ```
 
+```scala
+scala> Applicative[List] compose Applicative[Option]
+res0: Applicative[[X]List[Option[X]]] = Applicative$$anon$1@7445753c
+
+scala> res0.map2(List(Some(1), None, Some(2)), List(Some(2), Some(1)))(_ + _)
+res1: List[Option[Int]] = List(Some(3), Some(2), None, None, Some(4), Some(3))
+```
+
 

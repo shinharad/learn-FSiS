@@ -66,3 +66,32 @@ object Applicative {
       } yield f(a)
   }
 }
+
+trait ApplicativeLaws[F[_]] {
+
+  import Applicative.ops._
+  import Equal.IsEq._
+
+  implicit def F: Applicative[F]
+
+  def applicativeIdentity[A](fa: F[A]) =
+    fa.apply(F.pure((a: A) => a)) =?= fa
+
+  def applicativeHomomorphism[A, B](a: A, f: A => B) =
+    F.pure(a).apply(F.pure(f)) =?= F.pure(f(a))
+
+  def applicativeInterchange[A, B](a: A, ff: F[A => B]) =
+    F.pure(a).apply(ff) =?= ff.apply(F.pure((f: A => B) => f(a)))
+
+  def applicativeMap[A, B](fa: F[A], f: A => B) =
+    fa.map(f) =?= fa.apply(F.pure(f))
+
+}
+
+object ApplicativeLaws {
+
+  def apply[F[_]](implicit F0: Applicative[F]): ApplicativeLaws[F] = new ApplicativeLaws[F] {
+    def F = F0
+  }
+
+}

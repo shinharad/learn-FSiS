@@ -3,6 +3,7 @@ trait Equal[A] {
 }
 
 object Equal {
+
   def instance[A](f: (A, A) => Boolean): Equal[A] = new Equal[A] {
     def isEqual(lhs: A, rhs: A) = f(lhs, rhs)
   }

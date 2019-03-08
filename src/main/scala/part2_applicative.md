@@ -1,5 +1,7 @@
 # FSiS Part 2 - Applicative type class
 
+## Functor
+
 ```scala
 scala> import Functor.ops._
 import Functor.ops._
@@ -17,6 +19,8 @@ scala> Functor[List] compose Functor[Option] compose Functor[List]
 res3: Functor[[X]List[Option[List[X]]]] = Functor$$anon$1@1520bad3
 ```
 
+## Applicative#map
+
 ```scala
 scala> Applicative[Option]
 res0: Applicative[Option] = Applicative$$anon$1@16b82965
@@ -27,6 +31,7 @@ res1: Option[Int] = None
 scala> Applicative[List].map(List(1, 2, 3))(_ + 1)
 res2: List[Int] = List(2, 3, 4)
 ```
+## Applicative#map2
 
 ```scala
 scala> Applicative[Option].map2(Option(1), Option(2))(_ + _)
@@ -36,10 +41,14 @@ scala> Applicative[List].map2(List(1, 2, 3), List(4, 5, 6))(_ + _)
 res1: List[Int] = List(5, 6, 7, 6, 7, 8, 7, 8, 9)
 ```
 
+## Applicative#map3
+
 ```scala
 scala> Applicative[Option].map3(Option(1), Option(2), Option(3))(_ + _ + _)
 res1: Option[Int] = Some(6)
 ```
+
+## Applicative#tuple2
 
 ```scala
 scala> Applicative[Option].tuple2(Option(1), Option(2))
@@ -48,6 +57,8 @@ res0: Option[(Int, Int)] = Some((1,2))
 scala> Applicative[List].tuple2(List(1, 2, 3), List(4, 5, 6))
 res1: List[(Int, Int)] = List((1,4), (1,5), (1,6), (2,4), (2,5), (2,6), (3,4), (3,5), (3,6))
 ```
+
+## Applicative#map4
 
 ```scala
 scala> Applicative[Option].map4(Option(1), Option(2), Option(3), Option(4))(_ + _ + _ + _)

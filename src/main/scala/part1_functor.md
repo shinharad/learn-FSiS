@@ -1,5 +1,7 @@
 # FSiS Part 1 - Type Constructors, Functors, and Kind Projector
 
+## Type Constructors
+
 ```scala
 scala> val x: Int = 1
 x: Int = 1
@@ -70,6 +72,9 @@ scala> bar(1, 2)
 res3: Null = null
 ```
 
+
+## Functor
+
 ```scala
 scala> implicitly[Functor[List]]
 res0: Functor[List] = Functor$$anon$2@622584cd
@@ -81,6 +86,8 @@ scala> implicitly[Functor[Option]].map(Some(1))(_ + 1)
 res2: Option[Int] = Some(2)
 ```
 
+## Kind Projector
+
 ```scala
 scala> implicitly[Functor[Int => ?]]
 res0: Functor[[β$0$]Int => β$0$] = Functor$$anon$4@34d77b6f
@@ -91,6 +98,8 @@ res1: Int => Int = scala.Function1$$Lambda$5515/1758247102@4ce988b6
 scala> res1(5)
 res2: Int = 8
 ```
+
+## Simulacrum
 
 ```scala
 scala> Functor[List]
@@ -112,6 +121,8 @@ scala> List(1, 2, 3, 4, 5, 6).as(10)
 res4: List[Int] = List(10, 10, 10, 10, 10, 10)
 ```
 
+## compose
+
 ```scala
 scala> Functor[List] compose Functor[Option]
 res0: Functor[[X]List[Option[X]]] = Functor$$anon$1@36ec1b92
@@ -128,6 +139,8 @@ scala> xs.map(_ + 1)
 scala> res0.map(xs)(_ + 1)
 res2: List[Option[Int]] = List(Some(2), None, Some(3))
 ```
+
+## Kind Projector
 
 ```scala
 scala> def add3(x: Int, y: Int, z: Int) = x + y + z
@@ -147,9 +160,7 @@ res3: Int = 7
 
 scala> add3 _
 res4: (Int, Int, Int) => Int = $$Lambda$5506/1807403284@2f37bd25
-```
 
-```scala
 scala> Function1[X, ?]
 <console>:15: error: not found: value Function1
        Function1[X, ?]

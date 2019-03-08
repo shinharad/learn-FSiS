@@ -13,7 +13,7 @@ import scala.language.implicitConversions
     map(fa)(_ => b)
 
   def void[A](fa: F[A]): F[Unit] =
-    as(fa, ())
+    map(fa)(_ => ())
 
   def compose[G[_]](implicit G: Functor[G]): Functor[Lambda[X => F[G[X]]]] =
     new Functor[Lambda[X => F[G[X]]]] {
@@ -33,15 +33,22 @@ object Functor {
     def map[A, B](fa: Option[A])(f: A => B): Option[B] = fa.map(f)
   }
 
+  // F[_}に対してFunctionは2つの型パラメータを取るのでそのままでは指定できない
+  // そこで、partially applyを使うが記述が冗長なので、Kind Projectorで簡潔な技術をするみたいな
+  // https://youtu.be/Dsd4pc99FSY?list=PLFrwDVdSrYE6dy14XCmUtRAJuhCxuzJp0&t=2300
   implicit def function1Functor[X]: Functor[X => ?] = new Functor[X => ?] {
     def map[A, B](fa: X => A)(f: A => B): X => B = fa andThen f
   }
+
+//  implicit def function1Functor[X]: Functor[({ type l[a] = Function1[X, a] })#l] =
+//    new Functor[({ type l[a] = Function1[X, a] })#l] {
+//      def map[A, B](fa: X => A)(f: A => B): X => B = fa andThen f
+//    }
 
 }
 
 trait FunctorLaws[F[_]] {
 
-  import Functor.ops._
   import Equal.IsEq._
 
   implicit def F: Functor[F]
@@ -52,4 +59,10 @@ trait FunctorLaws[F[_]] {
   def composition[A, B, C](fa: F[A], f: A => B, g: B => C) =
     F.map(F.map(fa)(f))(g) =?= F.map(fa)(f andThen g)
 
+}
+
+object FunctorLaws {
+  def apply[F[_]](implicit F0: Functor[F]): FunctorLaws[F] = new FunctorLaws[F] {
+    def F = F0
+  }
 }

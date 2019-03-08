@@ -121,7 +121,7 @@ scala> List(1, 2, 3, 4, 5, 6).as(10)
 res4: List[Int] = List(10, 10, 10, 10, 10, 10)
 ```
 
-## compose
+## Functor#compose
 
 ```scala
 scala> Functor[List] compose Functor[Option]
@@ -140,7 +140,7 @@ scala> res0.map(xs)(_ + 1)
 res2: List[Option[Int]] = List(Some(2), None, Some(3))
 ```
 
-## Kind Projector
+## partially applied, Type Lambdas, Kind Projector
 
 ```scala
 scala> def add3(x: Int, y: Int, z: Int) = x + y + z

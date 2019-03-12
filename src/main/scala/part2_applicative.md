@@ -73,6 +73,8 @@ scala> Option(1).flatMap { x => Option(2).flatMap { y => Option(3).map { z => x 
 res3: Option[Int] = Some(6)
 ```
 
+## Applicative#compose
+
 ```scala
 scala> Applicative[List] compose Applicative[Option]
 res0: Applicative[[X]List[Option[X]]] = Applicative$$anon$1@7445753c

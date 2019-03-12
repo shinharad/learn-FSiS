@@ -33,14 +33,14 @@ import scala.language.implicitConversions
   def tuple3[A, B, C](fa: F[A], fb: F[B], fc: F[C]): F[(A, B, C)] =
     map3(fa, fb, fc)((a, b, c) => (a, b, c))
 
-  def flip[A, B]()(ff: F[A => B]): F[A] => F[B] =
+  def flip[A, B](ff: F[A => B]): F[A] => F[B] =
     fa => apply(fa)(ff)
 
   def compose[G[_]](implicit G: Applicative[G]): Applicative[Lambda[X => F[G[X]]]] =
     new Applicative[Lambda[X => F[G[X]]]] {
       def pure[A](a: A): F[G[A]] = self.pure(G.pure(a))
       def apply[A, B](fga: F[G[A]])(ff: F[G[A => B]]): F[G[B]] = {
-        val x: F[G[A] => G[B]] = self.map(ff)(gab => G.flip()(gab))
+        val x: F[G[A] => G[B]] = self.map(ff)(gab => G.flip(gab))
         self.apply(fga)(x)
       }
     }
@@ -65,6 +65,12 @@ object Applicative {
         a <- fa
         f <- ff
       } yield f(a)
+  }
+
+  implicit val streamApplicative: Applicative[Stream] = new Applicative[Stream] {
+    def pure[A](a: A): Stream[A] = Stream.continually(a)
+    def apply[A, B](fa: Stream[A])(ff: Stream[A => B]): Stream[B] =
+      (fa zip ff) map { case (a, f) => f(a) }
   }
 
 }

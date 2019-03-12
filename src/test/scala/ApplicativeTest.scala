@@ -23,4 +23,4 @@ abstract class ApplicativeInstanceTest[F[_]](name: String)(implicit
 
 object ListApplicativeTest   extends ApplicativeInstanceTest[List]("List")
 object OptionApplicativeTest extends ApplicativeInstanceTest[Option]("Option")
-
+//object StreamApplicativeTest extends ApplicativeInstanceTest[Stream]("Stream")

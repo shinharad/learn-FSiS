@@ -13,7 +13,8 @@ lazy val root = (project in file("."))
 //      "-Xlint"
     ),
     libraryDependencies ++= Seq(
-      "com.github.mpilquist" %% "simulacrum" % "0.15.0",
+      "com.github.mpilquist" %% "simulacrum" % "0.14.0",
+//      "com.github.mpilquist" %% "simulacrum" % "0.15.0",
       "org.scalacheck"       %% "scalacheck" % "1.14.0" % Test
     ),
     addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.9"),

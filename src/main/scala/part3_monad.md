@@ -12,4 +12,7 @@ res2: Monad[Option] = Monad$$anon$2@65f0d41
 
 scala> res2.flatMap(Option(1))(x => if (x > 0) Some(x) else None)
 res3: Option[Int] = Some(1)
+
+scala> res2.flatMap(None: Option[Int])(x => if (x > 0) Some(x) else None)
+res4: Option[Int] = None
 ```

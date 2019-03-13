@@ -3,12 +3,13 @@ import org.scalacheck._
 
 import scala.language.higherKinds
 
-abstract class ApplicativeInstanceTest[F[_]](name: String)(implicit
-                                                           F: Applicative[F],
-                                                           arbFInt: Arbitrary[F[Int]],
-                                                           eqFInt: Equal[F[Int]],
-                                                           eqFString: Equal[F[String]])
-    extends Properties(s"Applicative[$name]") {
+abstract class ApplicativeInstanceTest[F[_]](name: String)(
+  implicit
+  F: Applicative[F],
+  arbFInt: Arbitrary[F[Int]],
+  eqFInt: Equal[F[Int]],
+  eqFString: Equal[F[String]]
+) extends Properties(s"Applicative[$name]") {
 
   val laws = ApplicativeLaws[F]
 

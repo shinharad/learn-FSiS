@@ -3,12 +3,13 @@ import org.scalacheck._
 
 import scala.language.higherKinds
 
-abstract class FunctorInstanceTest[F[_]](name: String)(implicit
-                                                       F: Functor[F],
-                                                       arbFInt: Arbitrary[F[Int]],
-                                                       eqFInt: Equal[F[Int]],
-                                                       eqFLong: Equal[F[Long]])
-    extends Properties(s"Functor[$name]") {
+abstract class FunctorInstanceTest[F[_]](name: String)(
+  implicit
+  F: Functor[F],
+  arbFInt: Arbitrary[F[Int]],
+  eqFInt: Equal[F[Int]],
+  eqFLong: Equal[F[Long]]
+) extends Properties(s"Functor[$name]") {
 
   val laws = FunctorLaws[F]
 

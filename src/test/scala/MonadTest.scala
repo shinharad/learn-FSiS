@@ -3,15 +3,16 @@ import org.scalacheck._
 
 import scala.language.higherKinds
 
-abstract class MonadInstanceTest[F[_]](name: String)(implicit
-                                                     F: Monad[F],
-                                                     arbFInt: Arbitrary[F[Int]],
-                                                     arbFLong: Arbitrary[F[Long]],
-                                                     arbFString: Arbitrary[F[String]],
-                                                     eqFInt: Equal[F[Int]],
-                                                     eqFString: Equal[F[String]],
-                                                     eqFLong: Equal[F[Long]])
-    extends Properties(s"Monad[$name]") {
+abstract class MonadInstanceTest[F[_]](name: String)(
+  implicit
+  F: Monad[F],
+  eqFInt: Equal[F[Int]],
+  eqFStr: Equal[F[String]],
+  eqFLong: Equal[F[Long]],
+  arbFInt: Arbitrary[F[Int]],
+  arbFString: Arbitrary[F[String]],
+  arbFLong: Arbitrary[F[Long]],
+) extends Properties(s"Monad[$name]") {
 
   val laws = MonadLaws[F]
 

@@ -1,8 +1,7 @@
 import Equal.IsEq
 import simulacrum._
 
-import scala.language.higherKinds
-import scala.language.implicitConversions
+import scala.language.{higherKinds, implicitConversions}
 
 @typeclass trait Monad[F[_]] extends Applicative[F] { self =>
 
